@@ -1,0 +1,32 @@
+version: "2"
+
+services:
+  vote:
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${LOGSTASH_IP}:12201
+
+  redis:
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${LOGSTASH_IP}:12201
+
+  worker:
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${LOGSTASH_IP}:12201
+
+  db:
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${LOGSTASH_IP}:12201
+
+  result:
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://${LOGSTASH_IP}:12201

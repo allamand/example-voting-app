@@ -1,0 +1,50 @@
+version: "2"
+
+services:
+  vote:
+    labels:
+      - "traefik.frontend.rule=Host:vote.${PROXY_DNS}"
+      - "traefik.docker.network=traefik_net"   
+    networks:
+     - traefik_net
+     - net     
+
+  redis:
+    labels:
+      - "traefik.enable=false"  
+    networks:
+     - net     
+
+  worker:
+    labels:
+      - "traefik.enable=false"  
+    networks:
+     - net
+     
+  db:
+    labels:
+      - "traefik.enable=false"    
+    networks:
+     - net
+    volumes:
+      - data:/var/lib/postgresql/data
+
+  result:
+    labels:
+      - "traefik.frontend.rule=Host:vote-result.${PROXY_DNS}"
+      - "traefik.docker.network=traefik_net"  
+    networks:
+     - traefik_net
+     - net     
+
+networks:
+  net:
+    driver: overlay
+  traefik_net:
+    external: true
+
+volumes:
+  data:
+#    external:
+#      name: examplevotingapp_vote-data
+    driver: rexray

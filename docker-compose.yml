@@ -4,17 +4,21 @@ services:
   vote:
     build: ./vote
     command: python app.py
-    volumes:
-     - ./vote:/app
-    ports:
-      - "5000:80"
+    depends_on:
+      - redis    
+    expose:
+      - "80"
 
   redis:
     image: redis:alpine
-    ports: ["6379"]
+    expose: ["6379"]
+    depends_on:
+      - worker
 
   worker:
     build: ./worker
+    depends_on:
+      - db
 
   db:
     image: postgres:9.4
@@ -22,8 +26,7 @@ services:
   result:
     build: ./result
     command: nodemon --debug server.js
-    volumes:
-      - ./result:/app
-    ports:
-      - "5001:80"
-      - "5858:5858"
+    expose:
+      - "80"
+    depends_on:
+      - db
