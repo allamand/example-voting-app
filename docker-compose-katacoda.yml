@@ -1,0 +1,63 @@
+version: "2"
+
+services:
+  vote:
+    build: ./vote
+    command: python app.py
+    depends_on:
+      - redis    
+    expose:
+      - "80"
+    labels:
+      - "traefik.frontend.rule=PathPrefixStrip:/vote/"
+      - "traefik.docker.network=traefik_net"   
+    networks:
+     - traefik_net
+     - private       
+
+
+  redis:
+    image: redis:alpine
+    expose: ["6379"]
+    depends_on:
+      - worker
+    labels:
+      - "traefik.enable=false"  
+    networks:
+     - private
+     
+  worker:
+    build: ./worker
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=false"  
+    networks:
+     - private      
+
+  db:
+    image: postgres:9.4
+    labels:
+      - "traefik.enable=false"  
+    networks:
+     - private
+     
+  result:
+    build: ./result
+    command: nodemon --debug server.js
+    expose:
+      - "80"
+    depends_on:
+      - db
+    labels:
+      - "traefik.frontend.rule=PathPrefixStrip:/vote-result/"
+      - "traefik.docker.network=traefik_net"   
+    networks:
+     - traefik_net
+     - private       
+
+
+networks:
+  private:
+  traefik_net:
+    external: true
