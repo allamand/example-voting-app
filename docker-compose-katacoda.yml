@@ -9,7 +9,7 @@ services:
     expose:
       - "80"
     labels:
-      - "traefik.frontend.rule=PathPrefixStrip:/vote/"
+      - "traefik.frontend.rule=PathPrefix:/vote/"
       - "traefik.docker.network=traefik_net"   
     networks:
      - traefik_net
@@ -50,7 +50,7 @@ services:
     depends_on:
       - db
     labels:
-      - "traefik.frontend.rule=PathPrefixStrip:/vote-result/"
+      - "traefik.frontend.rule=PathPrefix:/vote-result/"
       - "traefik.docker.network=traefik_net"   
     networks:
      - traefik_net
