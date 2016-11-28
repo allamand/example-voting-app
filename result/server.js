@@ -75,9 +75,6 @@ app.use(function(req, res, next) {
 
 app.use(express.static(__dirname + '/views'));
 
-app.get('/vote-result', function (req, res) {
-  res.sendFile(path.resolve(__dirname + '/views/index.html'));
-});
 app.get('/', function (req, res) {
   res.sendFile(path.resolve(__dirname + '/views/index.html'));
 });

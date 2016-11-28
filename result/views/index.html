@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Cats vs Dogs -- Result</title>
-    <base href="/vote-result/index.html">
-    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <base href="/result/index.html">
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0">
     <meta name="keywords" content="docker-compose, docker, stack">
     <meta name="author" content="Docker">
-    <link rel='stylesheet' href='/vote-result/stylesheets/style.css' />
+    <link rel="stylesheet" href="/result/stylesheets/style.css" />
   </head>
   <body ng-controller="statsCtrl" >
      <div id="background-stats">
@@ -36,8 +36,8 @@
       <span ng-if="total == 1">{{total}} vote</span>
       <span ng-if="total >= 2">{{total}} votes</span>
     </div>
-    <script src="socket.io.js"></script>
+    <script src="/result/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-    <script src="app.js"></script>
+    <script src="/result/app.js"></script>
   </body>
 </html>

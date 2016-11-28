@@ -131,7 +131,7 @@ function Manager(uri, opts){
   }
   opts = opts || {};
 
-  opts.path = opts.path || '/socket.io';
+  opts.path = opts.path || '/result/socket.io';
   this.nsps = {};
   this.subs = [];
   this.opts = opts;
