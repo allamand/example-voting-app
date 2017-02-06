@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  vote:
+    image: sebmoule/vote_vote
+    command: python app.py
+    depends_on:
+      - redis    
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.backend=vote"
+        - "traefik.port=80"
+        - "traefik.frontend.rule=PathPrefixStrip:/vote"
+        - "traefik.docker.network=traefik_public"   
+    networks:
+     - traefik_public
+     - private       
+
+
+
+  redis:
+    image: redis:alpine
+    expose: ["6379"]
+    depends_on:
+      - worker
+    deploy:
+      labels:
+        - "traefik.enable=false"  
+    networks:
+     - private
+     
+  worker:
+    image: sebmoule/vote_worker
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=false"  
+    networks:
+     - private      
+
+  db:
+    image: postgres:9.4
+    deploy:
+      labels:
+        - "traefik.enable=false"  
+    networks:
+     - private
+     
+  result:
+    image: sebmoule/vote_result
+    command: nodemon --debug server.js
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.backend=result"
+        - "traefik.port=80"
+        - "traefik.frontend.rule=PathPrefixStrip:/result"
+        - "traefik.docker.network=traefik_public"   
+    networks:
+     - traefik_public
+     - private       
+
+
+networks:
+  private:
+  traefik_public:
+    external: true
