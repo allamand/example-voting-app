@@ -9,12 +9,12 @@ services:
     deploy:
       replicas: 1
       labels:
-        - "traefik.backend=vote"
-        - "traefik.port=80"
-        - "traefik.frontend.rule=PathPrefixStrip:/vote"
-        - "traefik.docker.network=traefik_public"   
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.servicePath=/vote/
+        - com.df.port=80
     networks:
-     - traefik_public
+     - proxy_public
      - private       
 
 
@@ -25,7 +25,7 @@ services:
       - worker
     deploy:
       labels:
-        - "traefik.enable=false"  
+        - com.df.notify=false
     networks:
      - private
      
@@ -36,7 +36,7 @@ services:
     deploy:
       replicas: 1
       labels:
-        - "traefik.enable=false"  
+        - com.df.notify=false
     networks:
      - private      
 
@@ -44,7 +44,7 @@ services:
     image: postgres:9.4
     deploy:
       labels:
-        - "traefik.enable=false"  
+        - com.df.notify=false
     networks:
      - private
      
@@ -56,16 +56,16 @@ services:
     deploy:
       replicas: 1
       labels:
-        - "traefik.backend=result"
-        - "traefik.port=80"
-        - "traefik.frontend.rule=PathPrefixStrip:/result"
-        - "traefik.docker.network=traefik_public"   
+        - com.df.notify=true
+        - com.df.distribute=true
+        - com.df.servicePath=/result/
+        - com.df.port=80
     networks:
-     - traefik_public
+     - proxy_public
      - private       
 
 
 networks:
   private:
-  traefik_public:
+  proxy_public:
     external: true
