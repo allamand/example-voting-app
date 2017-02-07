@@ -12,6 +12,8 @@ services:
         - com.df.notify=true
         - com.df.distribute=true
         - com.df.servicePath=/vote/
+        - com.df.reqPathSearch=/vote/
+        - com.df.reqPathReplace=/
         - com.df.port=80
     networks:
      - proxy_public
@@ -59,6 +61,8 @@ services:
         - com.df.notify=true
         - com.df.distribute=true
         - com.df.servicePath=/result/
+        - com.df.reqPathSearch=/result/
+        - com.df.reqPathReplace=/
         - com.df.port=80
     networks:
      - proxy_public
